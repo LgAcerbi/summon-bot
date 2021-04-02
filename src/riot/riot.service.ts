@@ -2,15 +2,15 @@ import { Injectable, HttpService } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FindBySummonerNameDto } from './dto/findBySummonerName.dto'
 import { FindEloBySummonerIdDto } from './dto/findEloBySummonerId.dto';
+import { FindMasteriesBySummonerIdDto } from './dto/findMasteriesBySummonerId'
 
 @Injectable()
 export class RiotService {
     constructor(
         private httpService: HttpService,
-        private configService: ConfigService
         ) {
             httpService.axiosRef.interceptors.request.use(function (config){
-                config.headers = {'X-Riot-Token': configService.get<String>('RIOT_TOKEN')};
+                config.headers = {'X-Riot-Token': process.env.RIOT_TOKEN};
                 return config;
             })
         }
@@ -25,6 +25,23 @@ export class RiotService {
             .toPromise();
         return response.data;
     }
-}
 
-//https://br1.api.riotgames.com/lol/league/v4/entries/by-summoner/
+    async findMasteriesBySummonerId(id: String): Promise<FindMasteriesBySummonerIdDto[]>{
+        const response = await this.httpService.get(`https://br1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${id}`)
+            .toPromise();
+        response.data.length = 5;
+        return response.data;    
+    }
+
+    async findScoreBySummonerId(id: String): Promise<Number>{
+        const response = await this.httpService.get(`https://br1.api.riotgames.com/lol/champion-mastery/v4/scores/by-summoner/${id}`)
+            .toPromise();
+        return response.data;
+    }
+
+    async getAllChampionsData(): Promise<Object>{
+        const response = await this.httpService.get(`http://ddragon.leagueoflegends.com/cdn/11.7.1/data/en_US/champion.json`)
+            .toPromise();
+        return response.data;    
+    }
+}

@@ -6,7 +6,9 @@ import { RiotModule } from './riot/riot.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
     RiotModule,
     BotModule
     ],
