@@ -1,9 +1,12 @@
-FROM node:12.14.0-alpine3.11
+FROM node:14.15.4-alpine3.12
 
-RUN apk add --no-cache bash
+RUN apk add bash
 
-RUN npm i -g @nestjs/cli@7.4.1
+#usuario root
+RUN npm install -g @nestjs/cli
 
 USER node
 
 WORKDIR /home/node/app
+
+COPY . .
