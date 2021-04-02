@@ -12,7 +12,6 @@ export class MessageService {
         return this.formatEmbedMessage(userData, championData);
     }
     formatEmbedMessage(userData: any, championData): EmbedMessageDto{
-        console.log(userData)
         const embedMessage = new MessageEmbed().setColor('#e8342a')
         .setTitle(userData.name)
         .setDescription('Server: [BR]')
@@ -20,9 +19,10 @@ export class MessageService {
         .addFields(
             { name: 'Level', value: `:small_blue_diamond: ${userData.summonerLevel}`, inline: true },
             { name: 'Mastery', value: `:small_orange_diamond: ${userData.score} points`, inline: true },
-            { name: '\u200B', value: '\u200B' },
+            { name: '\u200B', value: '-----------------------------------------------------------------' },
             { name: 'Solo/Duo', value: this.getEloField(userData.elo.solo), inline: true },
             { name: 'Flex', value: this.getEloField(userData.elo.flex), inline: true },
+            { name: '\u200B', value: '-----------------------------------------------------------------' },
         )
         .addField('Biggest Mastery', `Level: ${userData.masteries[0].championLevel}  -  Points: ${userData.masteries[0].championPoints}`, false)
         .setImage(`http://ddragon.leagueoflegends.com/cdn/11.7.1/img/champion/${championData.name}.png`)

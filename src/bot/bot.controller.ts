@@ -38,9 +38,12 @@ export class BotController {
      
   @OnCommand({ name: 'user' })
     async onCommand(@Content() content: string, @Context() [context]: [Message]): Promise<void> {
-      //console.log(content);
-      //console.log(context);
-      const embed = await this.botService.getSummonerData(content);
-      await context.reply(embed);
+      try {
+        const summonerData = await this.botService.getSummonerData(content);
+        await context.reply(summonerData);
+      } catch (error) {
+        context.reply('Error: User not found')
+      }
+      
     }
 }
