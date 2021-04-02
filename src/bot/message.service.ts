@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { EmbedMessageDto } from './dto/embedMessage.dto';
+import { EloDto } from './dto/elo.dto'
 import { MessageEmbed } from 'discord.js';
+import { FindMasteriesBySummonerIdDto } from 'src/riot/dto/findMasteriesBySummonerId';
 
 @Injectable()
 export class MessageService {
@@ -27,7 +29,7 @@ export class MessageService {
 
         return embedMessage;
     }
-    
+
     formatEloData(eloData) {
         const defaultElo = {tier: 'UNRANKED', rank: '', wins: 0, losses: 0, winrate: '' }
         const soloElo = eloData.find(elo => elo.queueType === 'RANKED_SOLO_5x5');
@@ -41,18 +43,18 @@ export class MessageService {
         return formattedElo;
     }
 
-    getBiggestMasteryChampion(masteriesData: any, champions: any) {
+    getBiggestMasteryChampion(masteriesData: FindMasteriesBySummonerIdDto[], champions: any) {
         champions = Object.values(champions.data)
         return champions.find(champion => champion.key === masteriesData[0].championId.toString())
     }
 
-    getWinrate(wins, losses){
+    getWinrate(wins: number, losses: number){
         const winrate = Math.round((wins * 100) / (wins + losses))
         const formattedWinrate = isNaN(winrate) ? '' : winrate;
         return `Winrate: ${formattedWinrate}%`
     }
 
-    getEloField(elo){
+    getEloField(elo: EloDto){
         return `${elo.tier} ${elo.rank}     -      ${elo.wins}/${elo.losses}\n ${elo.winrate}`
     }
 }

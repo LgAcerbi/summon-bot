@@ -5,6 +5,7 @@ import { FindBySummonerNameDto } from 'src/riot/dto/findBySummonerName.dto';
 import { EmbedMessageDto } from './dto/embedMessage.dto'
 import { FindEloBySummonerIdDto } from 'src/riot/dto/findEloBySummonerId.dto';
 import { FindMasteriesBySummonerIdDto } from 'src/riot/dto/findMasteriesBySummonerId';
+import { FetchedUserDataDto } from './dto/fetchedUser.dto';
 
 @Injectable()
 export class BotService {
@@ -45,7 +46,7 @@ export class BotService {
         return this.riotService.getAllChampionsData();
     }
 
-    fetchUserData(extraData: any[], baseData: FindBySummonerNameDto) : any{    // Mudar para formattedEloDto
+    fetchUserData(extraData: any[], baseData: FindBySummonerNameDto) : FetchedUserDataDto{ 
         return {
             ...baseData,
             elo: extraData[0],

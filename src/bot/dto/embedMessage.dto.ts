@@ -18,9 +18,3 @@ export class EmbedMessageDto {
     })
     fields: Object[];
 }
-
-/* 
-fields: [level, maestria
-        quebra de linha
-        soloduo, flex]
-*/
